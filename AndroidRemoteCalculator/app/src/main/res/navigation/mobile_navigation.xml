@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_local">
+
+    <fragment
+        android:id="@+id/navigation_local"
+        android:name="com.company.androidremotecalculator.ui.local.LocalFragment"
+        android:label="@string/title_local"
+        tools:layout="@layout/fragment_local" />
+
+    <fragment
+        android:id="@+id/navigation_http_post"
+        android:name="com.company.androidremotecalculator.ui.http.HTTPPostFragment"
+        android:label="@string/title_http_post"
+        tools:layout="@layout/fragment_http_post" />
+
+    <fragment
+        android:id="@+id/navigation_rmi"
+        android:name="com.company.androidremotecalculator.ui.rmi.RMIFragment"
+        android:label="@string/title_rmi"
+        tools:layout="@layout/fragment_rmi" />
+</navigation>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_local"
+        android:icon="@drawable/ic_local_black_24dp"
+        android:title="@string/title_local" />
+
+    <item
+        android:id="@+id/navigation_http_post"
+        android:icon="@drawable/ic_http_post_black_24dp"
+        android:title="@string/title_http_post" />
+
+    <item
+        android:id="@+id/navigation_rmi"
+        android:icon="@drawable/ic_rmi_black_24dp"
+        android:title="@string/title_rmi" />
+
+</menu>
