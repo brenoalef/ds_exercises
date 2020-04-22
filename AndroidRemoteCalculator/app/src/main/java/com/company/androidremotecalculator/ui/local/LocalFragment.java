@@ -32,6 +32,7 @@ public class LocalFragment extends Fragment {
         final EditText oper1EditText = root.findViewById(R.id.editTextLocalOPer1);
         final EditText oper2EditText = root.findViewById(R.id.editTextLocalOPer2);
 
+        // Atualiza o valor do resultado se for alterado no ViewModel
         final TextView resultTextView = root.findViewById(R.id.textViewLocalResult);
         localViewModel.getResult().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -58,6 +59,7 @@ public class LocalFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Checa se os dois números fora fornecidos e habilita/desabilita os botões de operação
                 boolean enabled = !(TextUtils.isEmpty(oper1EditText.getText()) || TextUtils.isEmpty(oper2EditText.getText()));
                 sumButton.setEnabled(enabled);
                 subButton.setEnabled(enabled);
@@ -66,6 +68,7 @@ public class LocalFragment extends Fragment {
             }
         };
 
+        // Observa alterações nos valores dos operadores
         oper1EditText.addTextChangedListener(afterTextChangedListener);
         oper2EditText.addTextChangedListener(afterTextChangedListener);
 
@@ -74,6 +77,7 @@ public class LocalFragment extends Fragment {
             public void onClick(View v) {
                 double oper1 = Double.parseDouble(oper1EditText.getText().toString());
                 double oper2 = Double.parseDouble(oper2EditText.getText().toString());
+                // Muda a operação de acordo com qual botão foi pressionado
                 switch (v.getId()) {
                     case R.id.buttonLocalSum:
                         localViewModel.calc(1, oper1, oper2);
@@ -91,6 +95,7 @@ public class LocalFragment extends Fragment {
             }
         };
 
+        // Ação dos botões
         sumButton.setOnClickListener(calcListenner);
         subButton.setOnClickListener(calcListenner);
         mulButton.setOnClickListener(calcListenner);

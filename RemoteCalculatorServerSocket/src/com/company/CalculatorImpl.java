@@ -1,5 +1,6 @@
 package com.company;
 
+// Implementação da interface exposta para acesso remoto
 public class CalculatorImpl implements CalculatorInterface {
     public double calc(int operation, double oper1, double oper2) throws IllegalArgumentException {
         switch (operation) {

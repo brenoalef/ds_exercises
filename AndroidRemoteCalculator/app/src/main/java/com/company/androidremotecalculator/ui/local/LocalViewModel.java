@@ -1,21 +1,14 @@
 package com.company.androidremotecalculator.ui.local;
 
-import android.app.Application;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.company.androidremotecalculator.ui.rmi.RMIViewModel;
-
-public class LocalViewModel extends AndroidViewModel {
+public class LocalViewModel extends ViewModel {
 
     private MutableLiveData<String> resultText;
 
-    public LocalViewModel(@NonNull Application application) {
-        super(application);
+    public LocalViewModel() {
         resultText = new MutableLiveData<>();
         resultText.setValue("");
     }
@@ -44,7 +37,6 @@ public class LocalViewModel extends AndroidViewModel {
                 break;
             default:
                 resultText.setValue("");
-                Toast.makeText(getApplication().getApplicationContext(), "Não foi possível conectar-se ao servidor.", Toast.LENGTH_SHORT).show();
         }
     }
 }

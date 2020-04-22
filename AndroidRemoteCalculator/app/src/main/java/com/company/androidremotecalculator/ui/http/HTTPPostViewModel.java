@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 
+// Precisa extender AndroidViewModel pra ter acesso ao contexto
 public class HTTPPostViewModel extends AndroidViewModel {
 
     private MutableLiveData<String> resultText;
@@ -35,6 +36,7 @@ public class HTTPPostViewModel extends AndroidViewModel {
     }
 
     void calc(int operation, double oper1, double oper2) {
+        // Precisa ser assíncrona por lidar com a rede
         MyAsyncTask myAsyncTask = new MyAsyncTask(operation, oper1, oper2);
         myAsyncTask.execute();
     }
@@ -51,13 +53,16 @@ public class HTTPPostViewModel extends AndroidViewModel {
 
         @Override
         protected String doInBackground(Void... voids) {
-            String result = "";
             try {
+                // Conexão com o servidor remoto
                 URL url = new URL("https://double-nirvana-273602.appspot.com/?hl=pt-BR");
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                // Configurando limites de tempo
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
+                // Indica que o método HTTP utilizado deve ser o POST
                 conn.setRequestMethod("POST");
+                // Indica que serão realizadas envios e recebimentos
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
@@ -65,31 +70,41 @@ public class HTTPPostViewModel extends AndroidViewModel {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, StandardCharsets.UTF_8));
+                // Operações: 1 (adição), 2 (Subtração), 3 (Multiplicação) e 4 (Divisão).
                 writer.write("oper1=" + oper1 + "&oper2=" + oper2 + "&operacao=" + operation);
+                // Envia a stream
                 writer.flush();
+                // Encerra a escrita
                 writer.close();
                 os.close();
 
+                // Checa se o servidor retornou 200 ou se houve algum erro
                 int responseCode = conn.getResponseCode();
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    // Se retornou 200, lê a resposta
                     BufferedReader br = new BufferedReader(
                             new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+                    // StringBuilder lida com Strings cujo tamanho pode ser alterado
                     StringBuilder response = new StringBuilder();
                     String responseLine;
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    result = response.toString();
+                    return response.toString();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(getApplication().getApplicationContext(), "Não foi possível conectar-se ao servidor.", Toast.LENGTH_SHORT).show();
             }
-            return result;
+
+            return "";
         }
 
         @Override
         protected void onPostExecute(String result) {
+            // Se o resultado é vazio, houve algum problema na chamada do método
+            if (result.isEmpty()) {
+                Toast.makeText(getApplication().getApplicationContext(), "Erro na comunicação com o servidor.", Toast.LENGTH_SHORT).show();
+            }
             resultText.setValue(result);
         }
     }
